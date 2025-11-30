@@ -1,75 +1,80 @@
-# React + TypeScript + Vite
+# ⚓ HullSense AI: Sistema Inteligente de Monitoramento de Bioincrustação Naval
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Eco-Hull Banner](https://img.shields.io/badge/Status-MVP%20Hackathon-success?style=for-the-badge) ![Python](https://img.shields.io/badge/Backend-Python%20%7C%20Flask-blue?style=for-the-badge) ![React](https://img.shields.io/badge/Frontend-React%20%7C%20TypeScript-61DAFB?style=for-the-badge) ![IoT](https://img.shields.io/badge/Hardware-Arduino%20IoT-red?style=for-the-badge)
 
-Currently, two official plugins are available:
+## 📖 Sobre o Projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O **HullSense** é uma solução de **Internet das Coisas (IoT)** e **Inteligência Artificial (IA)** desenvolvida para resolver um dos maiores gargalos da eficiência naval: a bioincrustação (*biofouling*).
 
-## React Compiler
+Diferente das inspeções visuais tradicionais (que são reativas, caras e perigosas para mergulhadores), o HullSense transforma o próprio casco do navio em um sensor inteligente, permitindo o monitoramento **preditivo** e **em tempo real** da saúde hidrodinâmica da embarcação.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+---
 
-Note: This will impact Vite dev & build performances.
+## 🚨 O Problema
 
-## Expanding the ESLint configuration
+A bioincrustação (acúmulo de cracas, mexilhões e algas) cria uma rugosidade no casco que aumenta drasticamente o arrasto (*drag*).
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* **Impacto Econômico:** Aumenta o consumo de combustível em **5% a 40%**. Para um navio classe Suezmax, isso pode representar um desperdício de **~$5.000 USD por dia**.
+* **Impacto Ambiental:** Aumento direto nas emissões de Gases de Efeito Estufa (GEE), violando metas de descarbonização da IMO (Net-Zero 2050).
+* **Risco de Segurança (HSSE):** A dependência de mergulhadores para inspeção expõe vidas humanas a riscos letais em ambientes portuários hostis.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 💡 A Solução HullSense AI
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Nossa plataforma atua através de um sistema de **Data Fusion (Fusão de Dados)** que combina três fontes de verdade para um diagnóstico preciso:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1.  **Monitoramento Físico (IoT):** Sensores piezoelétricos instalados na face interna do casco (*dry-side*) captam a assinatura vibracional.
+2.  **Modelagem Física:** Utilizamos a fórmula hidrodinâmica calibrada (`k * DWT^0.7`) para calcular o consumo teórico ideal de cada navio.
+3.  **Contexto Operacional:** Cruzamento com dados reais da Transpetro (*Noon Reports* e Eventos) e dados ambientais (Vento/Ondas) para isolar o que é "sujeira" do que é "condição de mar".
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Principais Funcionalidades
+* **Detecção de Anomalia:** IA (*Isolation Forest*) treinada com padrões físicos de vibração para detectar turbulência causada por cracas.
+* **Cálculo Financeiro em Tempo Real:** O dashboard mostra exatamente quanto dinheiro está sendo desperdiçado hoje devido ao arrasto extra.
+* **Gêmeo Digital do Casco:** Visualização gráfica (Mapa de Calor) indicando a localização exata da incrustação (Proa, Meio, Popa).
+* **Compensação Climática:** O sistema desconta o efeito de ondas e ventos para evitar falsos positivos.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## 🛠️ Arquitetura Técnica
+
+O projeto é dividido em três camadas principais:
+
+### 1. Camada de Borda (Hardware/IoT)
+* **Dispositivo:** Protótipo baseado em Arduino.
+* **Sensores:** Piezoelétricos (vibração) e Ultrassom (espessura - roadmap).
+* **Função:** Processamento local (*Edge Computing*) para filtragem de ruído e envio de dados via Serial/MQTT.
+
+### 2. Camada de Inteligência (Backend)
+* **Tecnologia:** Python com Flask.
+* **IA:** `scikit-learn` implementando algoritmo **Isolation Forest**.
+* **Data Science:**
+    * Geração de sinais sintéticos baseados no **NASA Bearing Dataset** (física de vibração mecânica).
+    * Ingestão e processamento de arquivos CSV reais da frota (`navios.csv`, `eventos.csv`).
+
+### 3. Camada de Decisão (Frontend)
+* **Tecnologia:** React (Vite) + TypeScript.
+* **Estilo:** CSS puro e Tailwind (Identidade visual Petrobras/Transpetro).
+* **Visualização:** Gráficos dinâmicos com `Chart.js` e renderização de imagens geradas pelo Python (`matplotlib`).
+
+---
+
+## 📂 Estrutura do Repositório
+
+```text
+eco-hull-project/
+│
+├── backend/                 # O Cérebro (Python API & IA)
+│   ├── app.py               # Servidor Flask e Lógica de Negócio
+│   ├── ai_engine.py         # Motor de IA (Geração de Sinais e Isolation Forest)
+│   ├── navios.csv           # Dados técnicos da frota (DWT, Dimensões)
+│   └── eventos.csv          # Histórico operacional real
+│
+├── src/                     # A Interface (React Frontend)
+│   ├── components/          # Componentes visuais (Header, Sidebar)
+│   ├── views/               # Telas (Dashboard, Frota)
+│   ├── hooks/               # Lógica de conexão com API
+│   └── ...
+│
+├── public/                  # Assets estáticos
+└── README.md                # Documentação
