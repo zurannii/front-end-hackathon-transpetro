@@ -5,19 +5,24 @@ import pandas as pd
 import random
 
 app = Flask(__name__)
+# Habilita CORS para o Frontend React acessar
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 ai = EcoHullAI()
 CURRENT_MODE = 'normal'
 CURRENT_SHIP_INDEX = 0
 
+# Preço estimado do combustível (USD por tonelada - VLSFO)
 FUEL_PRICE_USD = 600.0
 
 def load_data():
     try:
-       
+        # Lê os arquivos CSV (Certifique-se que estão na pasta backend com estes nomes!)
+        # navios.csv = O arquivo com k, dwt e dados técnicos
+        # eventos.csv = O arquivo com histórico de navegação (ResultadoQueryEventos)
         df_navios = pd.read_csv('navios.csv', sep=None, engine='python')
         
+        # Tenta ler eventos (se não existir, cria dataframe vazio para não quebrar)
         try:
             df_eventos = pd.read_csv('eventos.csv', sep=None, engine='python')
         except:
@@ -30,21 +35,27 @@ def load_data():
         for _, navio in df_navios.iterrows():
             nome = navio.get('ship_name', 'Desconhecido')
             
+            # 1. Busca dados reais de operação (Do arquivo de Eventos)
             velocidade_real = 12.0
             calado_real = 10.0
             
             if not df_eventos.empty:
                 historico = df_eventos[df_eventos['shipName'] == nome]
                 if not historico.empty:
+                    # Pega o último registro de navegação
                     ultimo = historico.iloc[-1]
                     velocidade_real = float(ultimo.get('speed', 12.0))
                     calado_real = float(ultimo.get('midDraft', 10.0))
             
+            # 2. Aplica a Física Teórica (Do arquivo de Navios)
             # Fórmula Base: Consumo = k * (DWT ^ 0.7)
             try:
                 k = float(navio.get('k', 0.15))
                 dwt = float(navio.get('dwt', 100000))
-                .
+                
+                # FATOR DE CALIBRAÇÃO (0.1):
+                # A fórmula crua gera ~600 (provavelmente kW/h ou índice).
+                # Multiplicamos por 0.1 para chegar em ~60 toneladas/dia (realista para Suezmax).
                 consumo_teorico_dia = (k * (dwt ** 0.7)) * 0.1
                 
             except:
@@ -64,6 +75,7 @@ def load_data():
 
     except Exception as e:
         print(f"--- ERRO CRÍTICO AO CARREGAR DADOS: {e} ---")
+        # Retorna um navio de emergência para a demo não parar
         return [{
             "nome": "RAFAEL SANTOS (Demo)",
             "classe": "Suezmax",
@@ -74,10 +86,13 @@ FLEET_DATA = load_data()
 
 @app.route('/api/dashboard-data')
 def get_dashboard_data():
+    # 1. IA: Gera dados do sensor + Clima
     sensor_data, weather_intensity = ai.get_sensor_data(mode=CURRENT_MODE)
     
+    # 2. IA: Analisa e GERA A IMAGEM do gráfico
     ai_result = ai.analyze_and_plot(sensor_data)
     
+    # 3. Recupera o navio atual
     global CURRENT_SHIP_INDEX
     if not FLEET_DATA:
         ship = {"nome": "Sem Dados", "consumo_teorico": 50}
@@ -85,15 +100,20 @@ def get_dashboard_data():
         if CURRENT_SHIP_INDEX >= len(FLEET_DATA): CURRENT_SHIP_INDEX = 0
         ship = FLEET_DATA[CURRENT_SHIP_INDEX]
     
+    # 4. Cálculo Financeiro do Desperdício
     fuel_waste_money = 0
     if ai_result['status'] == 'dirty':
-       
+        # Estimativa: Craca aumenta 15% o consumo teórico diário
+        # Ex: 60 ton/dia * 0.15 = 9 ton desperdiçadas
         toneladas_perdidas = ship.get('consumo_teorico', 50) * 0.15
         
+        # Adiciona variação aleatória pequena (para o número parecer "vivo" na tela)
         variacao = random.uniform(0.95, 1.05)
         
         fuel_waste_money = toneladas_perdidas * FUEL_PRICE_USD * variacao
     
+    # 5. Prepara dados ambientais para o Front
+    # Converte intensidade 0-1 para unidades reais
     wind_speed = round(10 + (weather_intensity * 30), 1) # Nós
     wave_height = round(0.5 + (weather_intensity * 4), 1) # Metros
 
@@ -118,6 +138,7 @@ def toggle_mode(mode):
         return jsonify({"status": "success", "mode": mode})
     return jsonify({"status": "error"})
 
+# Rota para trocar de navio (para testar diferentes cálculos)
 @app.route('/api/next-ship')
 def next_ship():
     global CURRENT_SHIP_INDEX
