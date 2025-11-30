@@ -1,0 +1,91 @@
+.header {
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-left { gap: 2rem; }
+.header-right { gap: 1.5rem; }
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-box {
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-petro-blue);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-secondary);
+}
+
+.search-input {
+  padding: 0.5rem 1rem 0.5rem 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-light-grey);
+  width: 320px;
+  color: var(--color-petro-blue);
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--color-petro-green);
+  box-shadow: 0 0 0 2px rgba(0, 133, 66, 0.1);
+}
+
+.icon-btn {
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  position: relative;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover { background-color: var(--color-light-grey); }
+
+.notification-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-signal-red);
+  border-radius: 50%;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-petro-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}

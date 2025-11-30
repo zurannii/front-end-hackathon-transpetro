@@ -1,0 +1,29 @@
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Forçar Light Mode */
+  color-scheme: light; 
+  background-color: #F8FAFC; /* Fundo cinza claro */
+  color: #002A40; /* Texto azul escuro */
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Garante que o app ocupe a tela toda */
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: block; /* Remove o display flex centralizado do Vite */
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+}

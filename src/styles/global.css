@@ -1,0 +1,39 @@
+@import './variables.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: var(--color-white);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+/* Classes Utilitárias (para reduzir repetição) */
+.card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-md);
+}
+
+.text-title { color: var(--color-petro-blue); font-weight: 700; }
+.text-subtitle { color: var(--color-text-secondary); font-size: 0.9rem; }
+.text-danger { color: var(--color-signal-red); }
+.text-success { color: var(--color-petro-green); }
+.text-warning { color: var(--color-petro-yellow); }
+
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }

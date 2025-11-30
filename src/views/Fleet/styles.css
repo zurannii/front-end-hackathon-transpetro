@@ -1,0 +1,55 @@
+.fleet-container {
+  padding: 2rem;
+  background-color: var(--color-light-grey);
+  min-height: 100vh;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+.filters-card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  margin-bottom: 2rem;
+}
+
+.filter-group {
+  margin-bottom: 1rem;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  margin-right: 0.75rem;
+  background-color: white;
+  color: var(--color-petro-blue);
+  transition: all 0.2s;
+}
+
+.filter-btn:hover { border-color: var(--color-petro-green); }
+
+.filter-btn.active {
+  background-color: var(--color-petro-green);
+  color: white;
+  border-color: var(--color-petro-green);
+}
+
+.vessel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
