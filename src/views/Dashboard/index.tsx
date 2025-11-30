@@ -1,8 +1,8 @@
 import { TrendingUp, DollarSign, Droplet, AlertCircle, Activity } from 'lucide-react';
-import { useShipData } from '../../hooks/useShipData'; // Importando o Hook da IA
+import { useShipData } from '../../hooks/useShipData';
 import './styles.css';
 
-export function DashboardView() { // O nome deve ser DashboardView para funcionar no App.tsx
+export function DashboardView() {
   
   // 1. Usando o Hook para pegar dados do Python
   const { data, loading, setSimulationMode } = useShipData();
@@ -117,7 +117,7 @@ export function DashboardView() { // O nome deve ser DashboardView para funciona
           <div className="chart-wrapper" style={{ display: 'flex', justifyContent: 'center', background: '#F8FAFC', borderRadius: '8px', padding: '10px' }}>
             {safeData.chart_image ? (
               <img 
-                src={safeData.chart_image}
+                src={safeData.chart_image} 
                 alt="Gráfico de Análise da IA" 
                 style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain' }}
               />

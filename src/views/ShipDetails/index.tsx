@@ -93,9 +93,11 @@ export function ShipDetailsView({ vesselId, onBack }: ShipDetailsViewProps) {
         </div>
 
         {/* Painel Central: Visual SVG */}
+       {/* Painel Central: Visual SVG */}
         <div className="info-card">
            <h3 className="text-title" style={{ marginBottom: '1.5rem' }}>Esquema Técnico do Casco</h3>
-           <HullSchematic />
+           {/* CORREÇÃO: Passando a prop 'status' que vem do vesselData */}
+           <HullSchematic status={vesselData.status} />
         </div>
       </div>
 
