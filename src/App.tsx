@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { DashboardView } from './views/Dashboard';
-import { AnalyticsView } from './views/Analytics'; // (Crie similar às outras)
+import { AnalyticsView } from './views/Analytics';
 import { FleetView } from './views/Fleet';
-import { ShipDetailsView } from './views/ShipDetails'; // (Crie similar às outras)
+import { ShipDetailsView } from './views/ShipDetails';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
