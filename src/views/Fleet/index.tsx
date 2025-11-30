@@ -68,18 +68,16 @@ export function FleetView({ onVesselClick }: FleetViewProps) {
                             </span>
                         </div>
 
-                        {/* Gráfico Miniatura */}
                         <div style={{ height: 80, marginTop: '1rem' }}>
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={vessel.chartData}>
                                     <XAxis dataKey="month" hide />
 
-                                    {/* ALTERE AQUI: Mudamos de var(--color-petro-blue) para uma cor suave (#94a3b8) */}
                                     <Bar
                                         dataKey="value"
                                         fill="#94a3b8"
                                         radius={[4, 4, 0, 0]}
-                                        barSize={100} /* Deixa as barras um pouco mais finas e elegantes */
+                                        barSize={120} 
                                     />
 
                                 </BarChart>
