@@ -1,59 +1,86 @@
-export function HullSchematic() {
+interface HullSchematicProps {
+  status: 'critical' | 'warning' | 'good';
+}
+
+export function HullSchematic({ status }: HullSchematicProps) {
+  // Define a cor principal baseada no status
+  const mainColor = 
+    status === 'critical' ? 'var(--color-signal-red)' : 
+    status === 'warning' ? 'var(--color-petro-yellow)' : 
+    'var(--color-petro-green)';
+
+  const statusLabel = 
+    status === 'critical' ? 'CRÍTICO' : 
+    status === 'warning' ? 'ATENÇÃO' : 
+    'NORMAL';
+
   return (
-    <div style={{ position: 'relative', backgroundColor: '#F8FAFC', borderRadius: '8px', padding: '3rem' }}>
-      <svg viewBox="0 0 1000 400" style={{ width: '100%', height: 'auto' }}>
-        {/* Hull outline - Suezmax tanker shape */}
+    <div style={{ position: 'relative', backgroundColor: 'var(--color-light-grey)', borderRadius: '8px', padding: '2rem' }}>
+      <svg viewBox="0 0 800 300" style={{ width: '100%', height: 'auto', display: 'block' }}>
+        
+        {/* Contorno do Navio */}
         <path
-          d="M 100 200 Q 100 120, 180 80 L 820 80 Q 900 120, 900 200 Q 900 280, 820 320 L 180 320 Q 100 280, 100 200 Z"
+          d="M 100 150 Q 100 100, 150 80 L 650 80 Q 700 100, 700 150 Q 700 200, 650 220 L 150 220 Q 100 200, 100 150 Z"
           fill="none"
           stroke="var(--color-petro-blue)"
-          strokeWidth="3"
-          opacity="0.4"
+          strokeWidth="2"
+          opacity="0.3"
         />
-        
-        {/* Deck lines - longitudinal */}
-        <line x1="180" y1="120" x2="820" y2="120" stroke="var(--color-petro-blue)" strokeWidth="1" opacity="0.2" />
-        <line x1="180" y1="200" x2="820" y2="200" stroke="var(--color-petro-blue)" strokeWidth="1" opacity="0.2" strokeDasharray="5,5" />
-        <line x1="180" y1="280" x2="820" y2="280" stroke="var(--color-petro-blue)" strokeWidth="1" opacity="0.2" />
-        
-        {/* Deck lines - transverse */}
-        <line x1="300" y1="100" x2="300" y2="300" stroke="var(--color-petro-blue)" strokeWidth="1" opacity="0.2" />
-        <line x1="500" y1="90" x2="500" y2="310" stroke="var(--color-petro-blue)" strokeWidth="1" opacity="0.2" />
-        <line x1="700" y1="100" x2="700" y2="300" stroke="var(--color-petro-blue)" strokeWidth="1" opacity="0.2" />
-        
-        {/* Bow section - RED (Critical fouling) */}
-        <ellipse cx="180" cy="200" rx="90" ry="80" fill="var(--color-signal-red)" opacity="0.7" />
-        <ellipse cx="180" cy="200" rx="60" ry="55" fill="var(--color-signal-red)" opacity="0.9" />
-        
-        {/* Bow bulb indicator */}
-        <circle cx="120" cy="200" r="25" fill="var(--color-signal-red)" opacity="0.8" />
-        
-        {/* Stern section - RED (Critical fouling) */}
-        <ellipse cx="850" cy="200" rx="70" ry="70" fill="var(--color-signal-red)" opacity="0.6" />
-        <ellipse cx="850" cy="200" rx="45" ry="45" fill="var(--color-signal-red)" opacity="0.8" />
-        
-        {/* Mid-ship section - Yellow (Moderate) */}
-        <ellipse cx="450" cy="200" rx="140" ry="65" fill="var(--color-petro-yellow)" opacity="0.5" />
-        
-        {/* Labels */}
-        <text x="180" y="370" textAnchor="middle" fill="var(--color-signal-red)" fontSize="16" fontWeight="700">PROA - CRÍTICO</text>
-        <text x="500" y="370" textAnchor="middle" fill="var(--color-petro-yellow)" fontSize="16" fontWeight="700">MEIO-NAVIO</text>
-        <text x="850" y="370" textAnchor="middle" fill="var(--color-signal-red)" fontSize="16" fontWeight="700">POPA - CRÍTICO</text>
+
+        {/* Linhas de Grade */}
+        <line x1="100" y1="150" x2="700" y2="150" stroke="var(--color-petro-blue)" strokeWidth="1" opacity="0.1" strokeDasharray="5,5" />
+        <line x1="250" y1="80" x2="250" y2="220" stroke="var(--color-petro-blue)" strokeWidth="1" opacity="0.1" strokeDasharray="5,5" />
+        <line x1="400" y1="80" x2="400" y2="220" stroke="var(--color-petro-blue)" strokeWidth="1" opacity="0.1" strokeDasharray="5,5" />
+        <line x1="550" y1="80" x2="550" y2="220" stroke="var(--color-petro-blue)" strokeWidth="1" opacity="0.1" strokeDasharray="5,5" />
+
+        {/* --- ZONAS DE CALOR DINÂMICAS --- */}
+
+        {/* PROA - Segue o status principal */}
+        <ellipse
+          cx="160" cy="150" rx="60" ry="50"
+          fill={mainColor} opacity="0.6"
+        />
+        <ellipse
+          cx="160" cy="150" rx="40" ry="35"
+          fill={mainColor} opacity="0.8"
+        />
+
+        {/* MEIO - Sempre um pouco melhor ou igual */}
+        <ellipse
+          cx="400" cy="150" rx="120" ry="60"
+          fill={status === 'good' ? 'var(--color-petro-green)' : 'var(--color-petro-yellow)'} 
+          opacity="0.5"
+        />
+
+        {/* POPA - Segue o status principal */}
+        <ellipse
+          cx="640" cy="150" rx="50" ry="45"
+          fill={mainColor} opacity="0.5"
+        />
+        <ellipse
+          cx="640" cy="150" rx="30" ry="28"
+          fill={mainColor} opacity="0.7"
+        />
+
+        {/* Rótulos */}
+        <text x="160" y="270" textAnchor="middle" fill={mainColor} fontSize="14" fontWeight="600">PROA - {statusLabel}</text>
+        <text x="400" y="270" textAnchor="middle" fill="var(--color-text-primary)" fontSize="14" fontWeight="600">MEIO-NAVIO</text>
+        <text x="640" y="270" textAnchor="middle" fill={mainColor} fontSize="14" fontWeight="600">POPA - {statusLabel}</text>
       </svg>
 
-      {/* Legenda simples */}
-      <div className="flex-center" style={{ gap: '2rem', marginTop: '1.5rem' }}>
-        <div className="flex-center" style={{ gap: '0.5rem' }}>
-            <div style={{ width: 16, height: 16, borderRadius: 4, backgroundColor: 'var(--color-petro-green)' }}></div>
-            <span className="text-subtitle">Bom</span>
+      {/* Legenda */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: 'var(--color-petro-green)' }}></div>
+          <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>Bom (&lt;5%)</span>
         </div>
-        <div className="flex-center" style={{ gap: '0.5rem' }}>
-            <div style={{ width: 16, height: 16, borderRadius: 4, backgroundColor: 'var(--color-petro-yellow)' }}></div>
-            <span className="text-subtitle">Atenção</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: 'var(--color-petro-yellow)' }}></div>
+          <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>Médio (5-15%)</span>
         </div>
-        <div className="flex-center" style={{ gap: '0.5rem' }}>
-            <div style={{ width: 16, height: 16, borderRadius: 4, backgroundColor: 'var(--color-signal-red)' }}></div>
-            <span className="text-subtitle">Crítico</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: 'var(--color-signal-red)' }}></div>
+          <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>Crítico (&gt;15%)</span>
         </div>
       </div>
     </div>
